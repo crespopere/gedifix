@@ -1,168 +1,159 @@
-📊 GEDIFIX — Geolocation Error Identification in GEDI Data (Google Earth Engine)
+# GEDIFIX — Geolocation Error Identification in GEDI Data (Google Earth Engine)
 
-GEDIFIX is an interactive Google Earth Engine application that identifies potential geolocation errors in NASA’s GEDI (Global Ecosystem Dynamics Investigation) waveform lidar data. It compares the terrain elevation derived from GEDI waveform attributes with an external terrain model (SRTM), highlights beams with large elevation differences, and allows users to export results.
+GEDIFIX is an **interactive Google Earth Engine application** that identifies potential geolocation errors in NASA’s GEDI (Global Ecosystem Dynamics Investigation) waveform lidar data.  
+It compares the terrain elevation derived from GEDI waveform attributes with an external terrain model (SRTM), highlights beams with large elevation differences, and allows users to export results.
 
-You can run it by copying and pasting the code into the Earth Engine Code Editor, or simply by visiting the preloaded link:
+You can run this script by copying and pasting the code into the **Earth Engine Code Editor**, or by opening it directly using the link below:
 
-🔗 Run in Google Earth Engine: https://code.earthengine.google.com/73814ee406ce3581856aae228c63d065
+🔗 **Run in Google Earth Engine:**  
+https://code.earthengine.google.com/73814ee406ce3581856aae228c63d065
 
-📌 Overview
+---
 
-GEDIFIX performs the following:
+## 📌 Overview
 
-Allows the user to draw or import a study area polygon.
+GEDIFIX performs the following steps:
 
-Accepts a height difference threshold (meters).
+- Allows the user to **draw or import a study area polygon**.
+- Accepts a **height difference threshold** (in meters).
+- Computes the **absolute difference between GEDI terrain elevation and SRTM terrain elevation**.
+- Displays areas where height differences **exceed the threshold**.
+- Exports **two CSV files**:
+  - Beam-level height differences
+  - Orbit-level summary statistics
 
-Computes the absolute difference between GEDI terrain elevation and SRTM terrain elevation.
+---
 
-Displays areas where height differences exceed the threshold.
+## ✨ Features
 
-Exports two CSVs:
+- ✔ Draw a polygon directly on the map  
+- ✔ Import a custom GeoJSON polygon  
+- ✔ Visualize GEDI–SRTM elevation differences  
+- ✔ Export CSV results (beam and orbit level)  
+- ✔ Interactive UI with logos and guided usage
 
-Beam-level height differences
+---
 
-Orbit-level summary statistics
+## 🧠 Requirements
 
-✨ Features
+To run this script you need:
 
-✔ Draw a polygon directly on the map
-✔ Import custom GeoJSON polygon
-✔ Visualize GEDI–SRTM differences
-✔ Export CSV results (beam and orbit level)
-✔ Interactive UI with logo branding and guidance
+- A **Google Earth Engine account** (free signup at https://earthengine.google.com/)  
+- Access to the **Earth Engine Code Editor**  
+- No additional libraries — this uses the native GEE JavaScript API
 
-🧠 Requirements
+---
 
-To run this script, you need:
+## 🚀 How to Use
 
-A Google Earth Engine account (free signup at https://earthengine.google.com/
-)
+### 🟦 Option A — Paste into Earth Engine Code Editor
 
-The Earth Engine Code Editor
+1. Log in to the Earth Engine Code Editor: https://code.earthengine.google.com/  
+2. Create a new script.  
+3. Copy the entire content of the JavaScript file (GEDIFIX).  
+4. Paste it into the editor.  
+5. Click **Run**.
 
-No additional libraries — all native GEE JavaScript API
+---
 
-🚀 How to Use
-🟦 Option A — Paste into Earth Engine Code Editor
+### 🟪 Option B — Open Directly
 
-Log in to the Earth Engine Code Editor: https://code.earthengine.google.com/
-
-Create a new script.
-
-Copy the entire content of the JavaScript file (GEDIFIX code).
-
-Paste it into the editor.
-
-Click Run.
-
-🟪 Option B — Open Directly
-
-Use this link to open the script automatically:
+Use the link below to automatically load the script:
 
 👉 https://code.earthengine.google.com/73814ee406ce3581856aae228c63d065
 
-Once loaded, click Run to start.
+Once loaded, click **Run** to start.
 
-🧭 User Workflow
+---
 
-Select study area
+## 🧭 User Workflow
 
-Click Select Area
+1. **Select study area**
+   - Click **Select Area**
+   - Draw a polygon on the map  
+   - Or click **Import** and paste a GeoJSON
 
-Draw a polygon on the map
+2. **Enter Height Threshold**
+   - Type a value (e.g., `10`)
 
-Or click Import and paste GeoJSON
+3. **Enter Output File Name**
+   - Provide a name (without `.csv`)
 
-Set Height Threshold
+4. **Execute**
+   - Click **Run**
 
-Enter a number in meters
+5. Wait for the task to complete  
+   - CSV exports will appear in the **Tasks** panel in Earth Engine
 
-Example: 10
+---
 
-Set Output Filename
+## 📂 Output Files
 
-Provide a name (without .csv)
+After execution, two tables will be exported to **Google Drive**:
 
-Execute
+| Output File | Description |
+|-------------|-------------|
+| `<OutputName>_beam.csv` | Beam-level height differences and metadata |
+| `<OutputName>_orbit_stats.csv` | Orbit-level summary statistics |
 
-Click Run
+---
 
-Wait for the task to complete.
+## 🔍 What It Computes
 
-Two CSV exports will be available in your Earth Engine Tasks panel.
+- Filters GEDI 02_A monthly products based on quality flags  
+- Uses **SRTM** + **EGM96 geoid** to compute terrain elevation  
+- Computes the absolute difference between GEDI **elev_lowestmode** and SRTM  
+- Renders:
+  - Elevation difference raster
+  - Masked points where absolute difference ≥ threshold
 
-📂 Output Files
+---
 
-When the process finishes, two tables will be exported to Google Drive:
-
-Output	Description
-<OutputName>_beam.csv	Beam-level height differences and metadata
-<OutputName>_orbit_stats.csv	Summary stats per orbit of GEDI
-🔍 What It Computes
-
-Filters GEDI 02_A monthly products based on quality flags
-
-Uses SRTM + EGM96 to compute ellipsoidal terrain
-
-Computes the absolute difference between GEDI elev_lowestmode and SRTM
-
-Maps:
-
-Elevation difference raster
-
-Masked points where abs difference ≥ threshold
-
-🧾 Script Structure Summarized
+## 🧾 Script Structure
 
 The script includes:
 
-🔹 UI Panels & Buttons
-🔹 Drawing Tools for geometry
-🔹 Function to import GeoJSON
-🔹 GEE operations:
+- 🔹 UI panels and buttons  
+- 🔹 Drawing tools for geometry  
+- 🔹 Import GeoJSON support  
+- 🔹 GEE image and geometry operations:
+  - GEDI data filtering
+  - Terrain calculation (SRTM + geoid)
+  - Height difference computation
+  - Visualization
+  - Export to Drive
 
-GEDI filtering
+---
 
-SRTM elevation
+## 🖼 Logos & Credits
 
-Height difference calculation
+This tool includes the following logos (hosted in Earth Engine assets):
 
-Masking and visualization
+- GEDIFIX  
+- CGAT  
+- UPV  
 
-Export to Drive
+Developed by the research team at **CGAT – Universitat Politècnica de València (UPV)**.
 
-🖼 Logos & Credits
+---
 
-This tool includes logos for:
+## ❓ Troubleshooting
 
-GEDIFIX
+- If the script fails to load the logos, make sure the asset paths exist (logo_cgat, logo_gedifix, logo_upv).  
+- If map layers don’t appear, ensure the **study area** is properly drawn.  
+- Check the **Tasks** tab in the Code Editor to monitor export status.
 
-CGAT
+---
 
-UPV
+## 📄 License
 
-Developed by the research team CGAT from the UPV.
+This project is released under the **MIT License** — see `LICENSE` for details.
 
-❓ Troubleshooting
+---
 
-If the script fails to load icons, check that the assets (logo_cgat, logo_gedifix, logo_upv) exist in your Earth Engine assets.
+## 🙌 Acknowledgements
 
-If map layers don’t appear, ensure your study area is properly drawn.
-
-Check the Tasks tab in Code Editor for Export status.
-
-
-📄 License
-
-This repository is released under the MIT License — see LICENSE for details.
-
-🙌 Acknowledgements
-
-NASA GEDI mission
-
-Google Earth Engine
-
-CGIAR/SRTM
-
-EGM96 geoid model
+- **NASA GEDI mission**  
+- **Google Earth Engine platform**  
+- **CGIAR/SRTM Digital Elevation Model**  
+- **EGM96 geoid model**
