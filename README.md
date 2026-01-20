@@ -50,7 +50,7 @@ To run this script you need:
 
 1. Log in to the Earth Engine Code Editor: https://code.earthengine.google.com/  
 2. Create a new script.  
-3. Copy the entire content of the JavaScript file (GEDIFIX).  
+3. Copy the entire content of the JavaScript file (gedifix.js).  
 4. Paste it into the editor.  
 5. Click **Run**.
 
